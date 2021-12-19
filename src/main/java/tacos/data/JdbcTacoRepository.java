@@ -1,5 +1,6 @@
 package tacos.data;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
@@ -16,6 +17,7 @@ import java.time.ZoneId;
 import java.util.Arrays;
 
 @Repository
+@Slf4j
 public class JdbcTacoRepository implements TacoRepository {
 
     private final JdbcTemplate jdbc;
@@ -37,14 +39,15 @@ public class JdbcTacoRepository implements TacoRepository {
 
     private long saveTacoInfo(Taco taco) {
         taco.setCreatedAt(LocalDateTime.now());
-        PreparedStatementCreator psc =
-                new PreparedStatementCreatorFactory(
-                        "INSERT INTO Taco (name, createdAt) VALUES (?, ?)",
-                        Types.VARCHAR, Types.TIMESTAMP
-                ).newPreparedStatementCreator(
-                        Arrays.asList(
-                                taco.getName(),
-                                new Timestamp(taco.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())));
+        PreparedStatementCreatorFactory statementFactory = new PreparedStatementCreatorFactory(
+                "INSERT INTO Taco (name, createdAt) VALUES (?, ?)",
+                Types.VARCHAR, Types.TIMESTAMP);
+        statementFactory.setReturnGeneratedKeys(true);
+        PreparedStatementCreator psc = statementFactory.newPreparedStatementCreator(
+                Arrays.asList(
+                        taco.getName(),
+                        new Timestamp(taco.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())));
+
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbc.update(psc, keyHolder);
