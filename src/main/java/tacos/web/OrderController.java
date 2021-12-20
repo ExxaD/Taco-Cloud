@@ -36,7 +36,6 @@ public class OrderController {
         if (errors.hasErrors()) {
             return "orderForm";
         }
-        log.warn(order.getTacos().toString());
         orderRepo.save(order);
         sessionStatus.setComplete();
         log.info("Order submitted: " + order);
