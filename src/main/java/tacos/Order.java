@@ -7,14 +7,15 @@ import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
-@Table(name="Taco_Order")
-public class Order {
+@Table(name="taco_orders")
+public class Order implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -51,8 +52,14 @@ public class Order {
     private String ccCVV;
 
     @ManyToMany(targetEntity = Taco.class)
-    @JoinColumn(name = "taco")
+    @JoinTable(
+            name = "taco_orders_tacos",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "taco_id"))
     List<Taco> tacos = new ArrayList<>();
+
+    @ManyToOne
+    private User user;
 
     public void addDesign(Taco design) {
         this.tacos.add(design);

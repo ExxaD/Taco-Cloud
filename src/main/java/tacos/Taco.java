@@ -10,6 +10,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Table(name = "tacos")
 public class Taco {
 
     @Id
@@ -23,8 +24,12 @@ public class Taco {
     private String name;
 
     @ManyToMany(targetEntity = Ingredient.class)
+    @JoinTable(
+            name = "tacos_ingredients",
+            joinColumns = @JoinColumn(name = "taco_id"),
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id")
+    )
     @Size(min=1, message="You must choose at least 1 ingredient")
-    @JoinColumn(name = "ingredient")
     private List<Ingredient> ingredients;
 
     @PrePersist
