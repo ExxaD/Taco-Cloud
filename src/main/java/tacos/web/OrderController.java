@@ -1,3 +1,4 @@
+/*
 package tacos.web;
 
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
-import tacos.Order;
-import tacos.User;
+import tacos.domain.Order;
+import tacos.domain.User;
 import tacos.data.OrderRepository;
 
 import javax.validation.Valid;
@@ -22,8 +23,8 @@ import javax.validation.Valid;
 @SessionAttributes("order")
 public class OrderController {
 
-    private OrderRepository orderRepo;
-    private OrderProps orderProps;
+    private final OrderRepository orderRepo;
+    private final OrderProps orderProps;
 
     @Autowired
     public OrderController(OrderRepository orderRepo, OrderProps orderProps) {
@@ -62,3 +63,4 @@ public class OrderController {
         return "orderList";
     }
 }
+*/

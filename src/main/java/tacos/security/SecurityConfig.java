@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
           .authorizeRequests()
-            .antMatchers("/design", "/orders")
+            .antMatchers("/design", "/design/**", "/orders", "/orders/**")
                 .hasRole("USER")
             .antMatchers("/", "/**").permitAll()
 
@@ -56,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web
-                .ignoring()
-                .antMatchers("/h2-console/**");
+            .ignoring()
+            .antMatchers("/h2-console/**");
     }
 }

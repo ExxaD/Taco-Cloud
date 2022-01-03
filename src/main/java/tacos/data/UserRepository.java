@@ -1,7 +1,7 @@
 package tacos.data;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import tacos.User;
+import tacos.domain.User;
 
 import java.util.Optional;
 
